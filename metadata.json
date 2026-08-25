@@ -1,0 +1,6 @@
+{
+  "name": "Conectando",
+  "description": "Programa de saldo unificado y beneficios para red de comercios",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
