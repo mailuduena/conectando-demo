@@ -1,8 +1,10 @@
 export type UserRole = 'consumidor' | 'empleado' | 'dueno';
 
-export type AppView = 'landing' | 'roles' | 'welcome' | 'consumidor' | 'empleado';
+export type AppView = 'landing' | 'roles' | 'welcome' | 'consumidor' | 'empleado' | 'dueno';
 
 export type ConsumidorTab = 'inicio' | 'beneficios' | 'movimientos' | 'qr';
+
+export type OwnerTab = 'resumen' | 'locales' | 'clientes' | 'empleados' | 'movimientos' | 'reglas_beneficios';
 
 export type TipoMovimiento = 'todos' | 'carga' | 'compra' | 'canje' | 'ajuste';
 
@@ -10,10 +12,14 @@ export type MedioPagoExterno = 'Efectivo' | 'Tarjeta' | 'Transferencia' | 'Otro'
 
 export interface LocalComercio {
   id: string;
+  codigo?: string;
   nombre: string;
-  tipo: string;
-  ubicacion: string;
-  color: string;
+  rubro?: string;
+  tipo?: string;
+  ubicacion?: string;
+  estado?: 'Activo' | 'Inactivo';
+  direccion?: string;
+  color?: string;
 }
 
 export interface EmpleadoPerfil {
@@ -22,6 +28,7 @@ export interface EmpleadoPerfil {
   nombre: string;
   comercioAsignado: string;
   permisos: string;
+  estado?: 'Activo' | 'Inactivo';
 }
 
 export interface ConsumidorPerfil {
@@ -57,6 +64,10 @@ export interface MovimientoRegistro {
   puntosObtenidos?: number;
   estado: 'Completada' | 'Pendiente' | 'Cancelada';
   descripcion?: string;
+  motivoAjuste?: string;
+  movimientoRelacionadoId?: string;
+  responsableAjuste?: string;
+  tipoAjuste?: 'credito_positivo' | 'credito_negativo';
 }
 
 export interface BeneficioItem {
@@ -67,5 +78,13 @@ export interface BeneficioItem {
   descripcion: string;
   puntosRequeridos: number;
   categoria: string;
+  activo: boolean;
+}
+
+export interface ReglasPrograma {
+  porcentajeBonificacion: number;
+  importePorPunto: number;
+  diasVigenciaBonificacion: number;
+  mesesVigenciaPuntos: number;
 }
 

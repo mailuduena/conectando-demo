@@ -12,6 +12,7 @@ import { RoleSelector } from './components/RoleSelector';
 import { RoleWelcome } from './components/RoleWelcome';
 import { ConsumerDashboard } from './components/consumer/ConsumerDashboard';
 import { EmployeeDashboard } from './components/employee/EmployeeDashboard';
+import { OwnerDashboard } from './components/owner/OwnerDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>('landing');
@@ -32,6 +33,8 @@ export default function App() {
       handleNavigate('consumidor', 'consumidor');
     } else if (role === 'empleado') {
       handleNavigate('empleado', 'empleado');
+    } else if (role === 'dueno') {
+      handleNavigate('dueno', 'dueno');
     } else {
       handleNavigate('welcome', role);
     }
@@ -87,6 +90,13 @@ export default function App() {
 
         {currentView === 'empleado' && (
           <EmployeeDashboard
+            onBackToRoles={handleBackToRoles}
+            onBackToLanding={handleBackToLanding}
+          />
+        )}
+
+        {currentView === 'dueno' && (
+          <OwnerDashboard
             onBackToRoles={handleBackToRoles}
             onBackToLanding={handleBackToLanding}
           />

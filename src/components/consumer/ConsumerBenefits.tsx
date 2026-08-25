@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { BeneficioItem, ConsumidorPerfil } from '../../types';
-import { CATALOGO_BENEFICIOS } from '../../data/consumerStore';
+import { getBeneficiosCatalogo } from '../../data/consumerStore';
 import {
   Gift,
   Percent,
@@ -19,6 +19,11 @@ interface ConsumerBenefitsProps {
 
 export const ConsumerBenefits: React.FC<ConsumerBenefitsProps> = ({ perfil }) => {
   const puntosActuales = perfil.puntos;
+  const [beneficios, setBeneficios] = useState<BeneficioItem[]>([]);
+
+  useEffect(() => {
+    setBeneficios(getBeneficiosCatalogo());
+  }, []);
 
   const getIcon = (tipo: BeneficioItem['tipo']) => {
     switch (tipo) {
@@ -85,10 +90,11 @@ export const ConsumerBenefits: React.FC<ConsumerBenefitsProps> = ({ perfil }) =>
 
       {/* Benefits Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-        {CATALOGO_BENEFICIOS.map((ben, idx) => {
+        {beneficios.map((ben, idx) => {
           const puntosFaltantes = Math.max(0, ben.puntosRequeridos - puntosActuales);
           const progresoPct = Math.min(100, Math.round((puntosActuales / ben.puntosRequeridos) * 100));
           const color = getColor(ben.tipo);
+          const isActivo = ben.activo !== false;
 
           return (
             <motion.div
@@ -97,26 +103,35 @@ export const ConsumerBenefits: React.FC<ConsumerBenefitsProps> = ({ perfil }) =>
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: idx * 0.1 }}
               id={`benefit-card-${ben.id}`}
-              className="flex flex-col justify-between p-6 rounded-2xl bg-[#FFFFFF] border border-[#15213A]/10 shadow-xs hover:border-[#15213A]/20 transition-all relative overflow-hidden"
+              className={`flex flex-col justify-between p-6 rounded-2xl bg-[#FFFFFF] border border-[#15213A]/10 shadow-xs hover:border-[#15213A]/20 transition-all relative overflow-hidden ${
+                !isActivo ? 'opacity-70 bg-[#F7F8FC]' : ''
+              }`}
             >
               <div>
                 {/* Category & Icon */}
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <div
                     className="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-2xs"
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: isActivo ? color : '#667085' }}
                   >
                     {getIcon(ben.tipo)}
                   </div>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#F7F8FC] text-[#667085] border border-[#15213A]/6">
-                    {ben.categoria}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {!isActivo && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF4F72]/10 text-[#FF4F72]">
+                        Pausado
+                      </span>
+                    )}
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#F7F8FC] text-[#667085] border border-[#15213A]/6">
+                      {ben.categoria}
+                    </span>
+                  </div>
                 </div>
 
                 <h3 className="text-lg font-bold text-[#15213A] font-['Outfit',sans-serif]">
                   {ben.titulo}
                 </h3>
-                <p className="text-xs font-semibold mt-0.5" style={{ color: color }}>
+                <p className="text-xs font-semibold mt-0.5" style={{ color: isActivo ? color : '#667085' }}>
                   {ben.subtitulo}
                 </p>
 
@@ -138,7 +153,7 @@ export const ConsumerBenefits: React.FC<ConsumerBenefitsProps> = ({ perfil }) =>
                       className="h-full rounded-full transition-all duration-500"
                       style={{
                         width: `${progresoPct}%`,
-                        backgroundColor: color,
+                        backgroundColor: isActivo ? color : '#667085',
                       }}
                     />
                   </div>

@@ -62,7 +62,8 @@ export const EmployeeSelector: React.FC<EmployeeSelectorProps> = ({
       {/* Employee Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {EMPLEADOS_DEMO.map((emp, idx) => {
-          const isMartin = emp.id === 'emp-001';
+          const colors = ['#234A91', '#D92D8A', '#F5A623', '#15213A'];
+          const empColor = colors[idx % colors.length];
           return (
             <motion.div
               key={emp.id}
@@ -76,7 +77,7 @@ export const EmployeeSelector: React.FC<EmployeeSelectorProps> = ({
                 <div className="flex items-center justify-between gap-2 mb-4">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-2xs"
-                    style={{ backgroundColor: isMartin ? '#234A91' : '#FF4F72' }}
+                    style={{ backgroundColor: empColor }}
                   >
                     <User className="w-6 h-6" />
                   </div>
