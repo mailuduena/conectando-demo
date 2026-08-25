@@ -57,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
               <Users className="w-4 h-4" />
               <span>Explorar demo</span>
             </button>
-          ) : currentView === 'welcome' && (
+          ) : (
             <button
               id="header-nav-switch-role-btn"
               onClick={() => onNavigate('roles')}

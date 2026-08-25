@@ -10,6 +10,7 @@ import { Footer } from './components/Footer';
 import { PublicLanding } from './components/PublicLanding';
 import { RoleSelector } from './components/RoleSelector';
 import { RoleWelcome } from './components/RoleWelcome';
+import { ConsumerDashboard } from './components/consumer/ConsumerDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>('landing');
@@ -26,7 +27,11 @@ export default function App() {
   };
 
   const handleSelectRole = (role: UserRole) => {
-    handleNavigate('welcome', role);
+    if (role === 'consumidor') {
+      handleNavigate('consumidor', 'consumidor');
+    } else {
+      handleNavigate('welcome', role);
+    }
   };
 
   const handleBackToRoles = () => {
@@ -69,6 +74,13 @@ export default function App() {
             onBackToLanding={handleBackToLanding}
           />
         )}
+
+        {currentView === 'consumidor' && (
+          <ConsumerDashboard
+            onBackToRoles={handleBackToRoles}
+            onBackToLanding={handleBackToLanding}
+          />
+        )}
       </main>
 
       {/* Persistent Footer */}
@@ -76,3 +88,4 @@ export default function App() {
     </div>
   );
 }
+
