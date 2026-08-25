@@ -1,10 +1,12 @@
 export type UserRole = 'consumidor' | 'empleado' | 'dueno';
 
-export type AppView = 'landing' | 'roles' | 'welcome' | 'consumidor';
+export type AppView = 'landing' | 'roles' | 'welcome' | 'consumidor' | 'empleado';
 
 export type ConsumidorTab = 'inicio' | 'beneficios' | 'movimientos' | 'qr';
 
 export type TipoMovimiento = 'todos' | 'carga' | 'compra' | 'canje' | 'ajuste';
+
+export type MedioPagoExterno = 'Efectivo' | 'Tarjeta' | 'Transferencia' | 'Otro';
 
 export interface LocalComercio {
   id: string;
@@ -12,6 +14,14 @@ export interface LocalComercio {
   tipo: string;
   ubicacion: string;
   color: string;
+}
+
+export interface EmpleadoPerfil {
+  id: string;
+  codigo: string;
+  nombre: string;
+  comercioAsignado: string;
+  permisos: string;
 }
 
 export interface ConsumidorPerfil {
@@ -38,6 +48,12 @@ export interface MovimientoRegistro {
   creditoAcreditado?: number;
   totalCompra?: number;
   creditoUtilizado?: number;
+  saldoAnterior?: number;
+  saldoPosterior?: number;
+  pagoOtroMedio?: number;
+  medioPagoExterno?: MedioPagoExterno;
+  codigoConsumidor?: string;
+  nombreConsumidor?: string;
   puntosObtenidos?: number;
   estado: 'Completada' | 'Pendiente' | 'Cancelada';
   descripcion?: string;

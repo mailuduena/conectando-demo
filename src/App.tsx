@@ -11,6 +11,7 @@ import { PublicLanding } from './components/PublicLanding';
 import { RoleSelector } from './components/RoleSelector';
 import { RoleWelcome } from './components/RoleWelcome';
 import { ConsumerDashboard } from './components/consumer/ConsumerDashboard';
+import { EmployeeDashboard } from './components/employee/EmployeeDashboard';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>('landing');
@@ -29,6 +30,8 @@ export default function App() {
   const handleSelectRole = (role: UserRole) => {
     if (role === 'consumidor') {
       handleNavigate('consumidor', 'consumidor');
+    } else if (role === 'empleado') {
+      handleNavigate('empleado', 'empleado');
     } else {
       handleNavigate('welcome', role);
     }
@@ -77,6 +80,13 @@ export default function App() {
 
         {currentView === 'consumidor' && (
           <ConsumerDashboard
+            onBackToRoles={handleBackToRoles}
+            onBackToLanding={handleBackToLanding}
+          />
+        )}
+
+        {currentView === 'empleado' && (
+          <EmployeeDashboard
             onBackToRoles={handleBackToRoles}
             onBackToLanding={handleBackToLanding}
           />
